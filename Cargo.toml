@@ -1,0 +1,18 @@
+[package]
+name = "autd3-bench"
+version = "0.1.0"
+edition = "2021"
+
+[dev-dependencies]
+autd3 = { path = "autd3/autd3" }
+autd3-driver = { path = "autd3/autd3-driver" }
+autd3-gain-holo = { path = "autd3/autd3-gain-holo" }
+criterion = { version = "0.5.1" }
+
+[lib]
+bench = false
+
+[[bench]]
+name = "autd3-bench"
+path = "benches/bench.rs"
+harness = false
