@@ -1,10 +1,6 @@
 use std::sync::Arc;
 
-use autd3_driver::{
-    defined::PI,
-    firmware::{cpu::TxDatagram},
-    geometry::Vector3,
-};
+use autd3_driver::{defined::PI, firmware::cpu::TxDatagram, geometry::Vector3};
 
 use autd3_gain_holo::{Naive, NalgebraBackend, Pa};
 use criterion::{black_box, Criterion};

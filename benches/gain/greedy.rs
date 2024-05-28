@@ -1,8 +1,4 @@
-use autd3_driver::{
-    defined::PI,
-    firmware::{cpu::TxDatagram},
-    geometry::Vector3,
-};
+use autd3_driver::{defined::PI, firmware::cpu::TxDatagram, geometry::Vector3};
 
 use autd3_gain_holo::{Greedy, NalgebraBackend, Pa};
 use criterion::{black_box, Criterion};

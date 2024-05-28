@@ -8,6 +8,7 @@ use autd3::{derive::Datagram, prelude::*};
 use autd3_driver::{
     defined::FREQ_40K,
     firmware::{cpu::TxDatagram, operation::OperationHandler},
+    geometry::IntoDevice,
 };
 
 use gain::*;
@@ -31,12 +32,14 @@ pub fn generate_geometry(size: usize) -> Geometry {
     )
 }
 
-fn pack(d: impl Datagram, geometry: &Geometry, tx: &mut TxDatagram) {
-    let (mut op1, mut op2) = d.operation();
-    OperationHandler::init(&mut op1, &mut op2, geometry).unwrap();
+fn pack<'a>(d: impl Datagram<'a>, geometry: &Geometry, tx: &mut TxDatagram) {
+    let parallel_threshold = d.parallel_threshold().unwrap_or(4);
+
+    let gen = d.operation_generator(geometry).unwrap();
+    let mut operations = OperationHandler::generate(gen, geometry).unwrap();
     loop {
-        OperationHandler::pack(&mut op1, &mut op2, geometry, tx).unwrap();
-        if OperationHandler::is_finished(&mut op1, &mut op2, geometry) {
+        OperationHandler::pack(&mut operations, geometry, tx, parallel_threshold).unwrap();
+        if OperationHandler::is_done(&operations, geometry) {
             break;
         }
     }
@@ -170,5 +173,4 @@ criterion_group!(
     name = benches;
     config = Criterion::default().without_plots().with_measurement(WallTimeUs{});
     targets = focus, greedy, naive, sine, gain_stm, focus_stm);
-// targets = gain_stm, focus_stm);
 criterion_main!(benches);

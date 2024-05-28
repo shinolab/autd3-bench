@@ -1,8 +1,5 @@
-use autd3::{modulation::Sine};
-use autd3_driver::{
-    defined::Hz,
-    firmware::{cpu::TxDatagram},
-};
+use autd3::modulation::Sine;
+use autd3_driver::{defined::Hz, firmware::cpu::TxDatagram};
 
 use criterion::{black_box, BenchmarkId, Criterion};
 

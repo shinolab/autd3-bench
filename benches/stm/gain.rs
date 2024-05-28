@@ -1,10 +1,5 @@
-use autd3::{gain::Focus};
-use autd3_driver::{
-    datagram::GainSTM,
-    defined::PI,
-    firmware::{cpu::TxDatagram},
-    geometry::Vector3,
-};
+use autd3::gain::Focus;
+use autd3_driver::{datagram::GainSTM, defined::PI, firmware::cpu::TxDatagram, geometry::Vector3};
 
 use criterion::{black_box, Criterion};
 
@@ -24,14 +19,14 @@ pub fn gain_stm(c: &mut Criterion<WallTimeUs>) {
                     b.iter(|| {
                         let g = GainSTM::from_sampling_config(
                             autd3::derive::SamplingConfig::DivisionRaw(512),
-                        )
-                        .add_gains_from_iter((0..n).map(|i| {
-                            Focus::new(Vector3::new(
-                                black_box(90. + 10. * (2.0 * PI * i as f64 / n as f64).cos()),
-                                black_box(70. + 10. * (2.0 * PI * i as f64 / n as f64).sin()),
-                                black_box(150.),
-                            ))
-                        }));
+                            (0..n).map(|i| {
+                                Focus::new(Vector3::new(
+                                    black_box(90. + 10. * (2.0 * PI * i as f64 / n as f64).cos()),
+                                    black_box(70. + 10. * (2.0 * PI * i as f64 / n as f64).sin()),
+                                    black_box(150.),
+                                ))
+                            }),
+                        );
                         pack(g, geometry, &mut tx);
                     })
                 },

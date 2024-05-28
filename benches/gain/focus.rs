@@ -1,8 +1,5 @@
-use autd3::{gain::Focus};
-use autd3_driver::{
-    firmware::{cpu::TxDatagram},
-    geometry::Vector3,
-};
+use autd3::gain::Focus;
+use autd3_driver::{firmware::cpu::TxDatagram, geometry::Vector3};
 
 use criterion::{black_box, BenchmarkId, Criterion};
 
